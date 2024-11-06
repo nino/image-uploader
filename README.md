@@ -15,4 +15,8 @@ The script should generate the smaller version of the file,
 upload both versions to Backblaze B2,
 and output the HTML snippet.
 
+Execute with
 
+```sh
+uv run upload.py my-file-name
+```
