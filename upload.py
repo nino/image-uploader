@@ -41,7 +41,7 @@ def optimise_images(paths):
         raise RuntimeError("ImageOptim not found.")
 
 
-def process_file(path):
+def process_file(path, alt_text):
     """
     Given a file path:
     - Copy the file to two tmp files.
@@ -83,7 +83,8 @@ def process_file(path):
                 thumb_file.read(), f"images/{thumb_name}"
             )
 
-        html = f'<a href="{BUCKET_PREFIX}{full_upload.file_name}"><img src="{BUCKET_PREFIX}{thumb_upload.file_name}" alt="{name}"></a>'
+        html = f'<a href="{BUCKET_PREFIX}{full_upload.file_name}"><img src="{BUCKET_PREFIX}{thumb_upload.file_name}" alt="{alt_text}"></a>'
+        subprocess.run(["pbcopy"], input=html.encode(), check=True)
 
         return html
 
@@ -94,7 +95,8 @@ def process_file(path):
 
 if __name__ == "__main__":
     file_path = sys.argv[1]
+    alt_text = sys.argv[2]
     if not file_path:
         print("No file path provided.")
 
-    print(process_file(file_path))
+    print(process_file(file_path, alt_text))
